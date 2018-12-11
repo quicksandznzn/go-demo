@@ -4,13 +4,27 @@ package main
 import (
 	"github.com/streadway/amqp"
 	"log"
-	"github.com/gosexy/to"
-	yml "github.com/quicksandznzn/go-yaml"
+	"io/ioutil"
+	"gopkg.in/yaml.v2"
 )
 
+type Config struct {
+	RabbitMQ struct {
+		Url string `yaml:"url"`
+	}
+}
+
+const ConfigPath = "./config/conf.yml"
+
 func main() {
-	conf, err := yml.Open("./config/conf.yml")
-	conn, err := amqp.Dial(to.String(conf.Get("rabbitmq", "url")))
+
+	config := Config{}
+	buffer, err := ioutil.ReadFile(ConfigPath)
+	failOnError(err, "read config error")
+	err = yaml.Unmarshal(buffer, &config)
+	failOnError(err, "yml convert error")
+
+	conn, err := amqp.Dial(config.RabbitMQ.Url)
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
