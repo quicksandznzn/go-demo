@@ -7,9 +7,6 @@ import (
 	"gopkg.in/yaml.v2"
 	"log"
 	"io/ioutil"
-	"os/exec"
-	"os"
-	"strings"
 )
 
 type Config struct {
@@ -105,13 +102,7 @@ func query(db *sql.DB) {
 func failOnError(err error, msg string) {
 	if err != nil {
 		log.Fatalf("%s: %s", msg, err)
+		panic(err)
 	}
 }
 
-func getCurrentPath() string {
-	s, err := exec.LookPath(os.Args[0])
-	failOnError(err, "getCurrentPath error")
-	i := strings.LastIndex(s, "\\")
-	path := string(s[0 : i+1])
-	return path
-}

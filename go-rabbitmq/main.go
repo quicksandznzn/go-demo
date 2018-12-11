@@ -92,5 +92,6 @@ func publish(channel *amqp.Channel, queue amqp.Queue, body string) {
 func failOnError(err error, msg string) {
 	if err != nil {
 		log.Fatalf("%s: %s", msg, err)
+		panic(err)
 	}
 }
