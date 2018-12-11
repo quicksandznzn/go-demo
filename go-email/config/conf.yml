@@ -1,0 +1,8 @@
+mail:
+  from: 434427944@qq.com
+  to: 1598572441@qq.com
+  cc: 1598572441@qq.com
+  host: smtp.qq.com
+  port: 587
+  username: 434427944@qq.com
+  password:
